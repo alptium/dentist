@@ -1,2 +1,2 @@
 # Alptium Dentist
-Alptium Dentist is
+Include description of the project.
