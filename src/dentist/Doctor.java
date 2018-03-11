@@ -22,7 +22,36 @@ public class Doctor {
 		this.licenceID = licenceID;
 	}
 	
+	public String getfirstName() {
+		return firstName;
+	}
+	
 	public String getLastName() {
 		return lastName;
-}
+	}
+	
+	public int getbirthDate() {
+		return birthDate;
+	}
+	
+	public int getbirthMounth() {
+		return birthMounth;
+	}
+	
+	public int getbirthYear() {
+		return birthYear;
+	}
+	
+	public long getjmbg() {
+		return jmbg;
+	}
+	
+	public String getspecialization() {
+		return specialization;
+	}
+	
+	public int getlicenceID() {
+		return licenceID;
+	}
+	
 }
