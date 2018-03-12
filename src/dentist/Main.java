@@ -1,5 +1,7 @@
 package dentist;
+
 import java.util.Scanner;
+
 public class Main {
 
 	public static void main(String[] args) {
@@ -29,23 +31,25 @@ public class Main {
 	
 		try(Scanner sc = new Scanner(System.in)) {
 				
-			System.out.println("Please enter your firstname: ");
+			System.out.println("Please enter Name: ");
 			String firstName = sc.next();
 			
-			System.out.println("Please enter your lastname: ");
+			System.out.println("Please enter Surname: ");
 			String lastName = sc.next();
 			
-			System.out.println("Please enter your birth date: ");
+			System.out.println("Please enter Birth Date: ");
 			int birthDate = sc.nextInt();
 			
-			System.out.println("Please enter your birth mounth: ");
-			int birthMounth = sc.nextInt();
+			System.out.println("Please enter Birth Month: ");
+			int birthMonth = sc.nextInt();
 			
-			System.out.println("Please enter your birth year: ");
+			System.out.println("Please enter Birth Year: ");
 			int birthYear = sc.nextInt();
 			
-			System.out.println("Please enter your JMBG: ");
+			System.out.println("Please enter JMBG: ");
 			long jmbg = sc.nextLong();
+			
+			Doctor doctor = new Doctor (firstName, lastName, birthDate, birthMonth, birthYear, jmbg);
 			
 			if (jmbg < 13 && jmbg > 13) {
 				System.out.println("You entered wrong JMBG number!");
@@ -53,15 +57,60 @@ public class Main {
 				long jmbg1 = sc.nextLong();
 				
 				if (jmbg < 13 && jmbg > 13) {
-					System.out.println("You entered wrong JMBG number again!");
+					System.out.println("You entered wrong JMBG number!");
 					System.out.println("Please try again, you need to enter 13 numbers.");
 					long jmbg2 = sc.nextLong();
 				}
 			}
 				
-			System.out.println("Please enter your specialization:");
+			System.out.println("Please enter your Specialization:");
 			String specialization = sc.next();
 				
-			System.out.println("Please enter your licence ID:");
+			System.out.println("Please enter your Licence ID:");
 			int licenceID = sc.nextInt();
 	}
+		
+		public static void runDemoPatient() {
+			
+			System.out.println("Follow the instructions to add new Patient:");
+			
+			try(Scanner sc = new Scanner(System.in)) {
+				
+				System.out.println("Please enter Name: ");
+				String name = sc.next();
+				
+				System.out.println("Please enter Surname: ");
+				String surname = sc.next();
+				
+				System.out.println("Please enter JMBG: ");
+				String jmbg = sc.nextLong();
+				
+				System.out.println("Please enter Birth Date: ");
+				String birthDate = sc.next()Int;
+				
+				System.out.println("Please enter Address: ");
+				String address = sc.next();
+				
+				System.out.println("Please enter City: ");
+				String city = sc.next();
+				
+				System.out.println("Please enter Phone Number: ");
+				String phoneNumber = sc.nextInt();
+				
+				System.out.println("Please enter Occupation: ");
+				String occupation = sc.next();
+				
+				Patient patient = new Patient (name, surname, jmbg, birthDate, address, city, phoneNumber, occupation);
+				
+				if (jmbg < 13 && jmbg > 13) {
+					System.out.println("You entered wrong JMBG number!");
+					System.out.println("Please try again.");
+					long jmbg1 = sc.nextLong();
+					
+					if (jmbg < 13 && jmbg > 13) {
+						System.out.println("You entered wrong JMBG number!");
+						System.out.println("Please try again, you need to enter 13 numbers.");
+						long jmbg2 = sc.nextLong();
+				
+			}
+		}
