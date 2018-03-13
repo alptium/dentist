@@ -45,7 +45,8 @@ public class Main {
 			
 			System.out.println("Please enter your JMBG: ");
 			long jmbg = sc.nextLong();
-			
+			//attention, the personal number cant be long,int etc. because
+			//in the case where the first number is 0 it it will return without it
 			if (jmbg < 13 && jmbg > 13) {
 				System.out.println("You entered wrong JMBG number!");
 				System.out.println("Please try again.");
