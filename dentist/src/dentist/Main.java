@@ -8,12 +8,12 @@ public class Main {
 		try(Scanner sc = new Scanner(System.in)) {
 			
 			System.out.println("Do you want to add Doctor? (Y/N)");
-			String a1= sc.next();
+			String a1= sc.next().substring(0, 1);
 			
-			if ( a1.equals("Y") || a1.equals("y")) {
+			if ( a1.equalsIgnoreCase("Y") ) {
 				runDemoDentist();
 			}
-			else if (a1.equals("N") || a1.equals("n")) {
+			else if (a1.equalsIgnoreCase("N") ) {
 				System.out.println("You will now enter program for add Patient.");
 				//runDemoPatient();
 			}
@@ -29,10 +29,10 @@ public class Main {
 		try(Scanner sc = new Scanner(System.in)) {
 				
 			
-			System.out.println("Please enter your firstname: ");
+			System.out.println("Please enter your first name: ");
 			String firstName = sc.next();
 			
-			System.out.println("Please enter your lastname: ");
+			System.out.println("Please enter your last name: ");
 			String lastName = sc.next();
 			
 			System.out.println("Please enter your birth date: ");
@@ -45,19 +45,15 @@ public class Main {
 			int birthYear = sc.nextInt();
 			
 			System.out.println("Please enter your JMBG: ");
-			long jmbg = sc.nextLong();
+			String jmbg = sc.next();
+			int jmbgLength = jmbg.length();
 			//attention, the personal number cant be long,int etc. because
 			//in the case where the first number is 0 it it will return without it
-			if (jmbg < 13 && jmbg > 13) {
+			if (jmbgLength < 13 || jmbgLength > 13) {
 				System.out.println("You entered wrong JMBG number!");
 				System.out.println("Please try again.");
-				long jmbg1 = sc.nextLong();
-				
-				if (jmbg < 13 && jmbg > 13) {
-					System.out.println("You entered wrong JMBG number again!");
-					System.out.println("Please try again, you need to enter 13 numbers.");
-					long jmbg2 = sc.nextLong();
-				}
+				String jmbg1 = sc.next();
+				jmbg = jmbg1;
 			}
 				
 			System.out.println("Please enter your specialization:");
@@ -69,7 +65,7 @@ public class Main {
 			Dentist dentist = new Dentist (firstName, lastName, birthDate,birthMounth, birthYear, jmbg, specialization, licenceID);
 			
 			System.out.println();
-			System.out.println( dentist.getfirstName());
+			System.out.println( dentist.getjmbg());
 		}
 	}
 }

@@ -7,11 +7,11 @@ public class Dentist {
 	private int birthDate;
 	private int birthMounth;
 	private int birthYear;
-	private long jmbg;
+	private String jmbg;
 	private String specialization;
 	private int licenceID;
 	
-	public Dentist(String firstName, String lastName, int birthDate, int birthMounth, int birthYear, long jmbg, String specialization, int licenceID) {
+	public Dentist(String firstName, String lastName, int birthDate, int birthMounth, int birthYear, String jmbg, String specialization, int licenceID) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.birthDate = birthDate;
@@ -42,7 +42,7 @@ public class Dentist {
 		return birthYear;
 	}
 	
-	public long getjmbg() {
+	public String getjmbg() {
 		return jmbg;
 	}
 	
