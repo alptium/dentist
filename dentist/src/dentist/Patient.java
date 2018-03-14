@@ -1,6 +1,7 @@
 package dentist;
 
 public class Patient {
+	
 	private String name;
 	private String surname;
 	private long jmbg;

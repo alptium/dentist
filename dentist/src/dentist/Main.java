@@ -11,7 +11,7 @@ public class Main {
 			String a1= sc.next();
 			
 			if ( a1.equals("Y") || a1.equals("y")) {
-				runDemoDoctor();
+				runDemoDentist();
 			}
 			else if (a1.equals("N") || a1.equals("n")) {
 				System.out.println("You will now enter program for add Patient.");
@@ -22,12 +22,13 @@ public class Main {
 	}
 
 
-	private static void runDemoDoctor() {
+	private static void runDemoDentist() {
 	
 		System.out.println("Follow the instructions to add new Dentist:");
 	
 		try(Scanner sc = new Scanner(System.in)) {
 				
+			
 			System.out.println("Please enter your firstname: ");
 			String firstName = sc.next();
 			
@@ -63,6 +64,11 @@ public class Main {
 				
 			System.out.println("Please enter your licence ID:");
 			int licenceID = sc.nextInt();
+			
+			Dentist dentist = new Dentist (firstName, lastName, birthDate,birthMounth, birthYear, jmbg, specialization, licenceID);
+			
+			System.out.println();
+			System.out.println( dentist.getfirstName());
 		}
 	}
 }
