@@ -14,8 +14,8 @@ public class Main {
 				runDemoDentist();
 			}
 			else if (a1.equalsIgnoreCase("N") ) {
-				System.out.println("You will now enter program for add Patient.");
-				//runDemoPatient();
+				System.out.println("You will now enter program to add Patient.");
+				runDemoPatient();
 			}
 			
 		}
@@ -29,22 +29,22 @@ public class Main {
 		try(Scanner sc = new Scanner(System.in)) {
 				
 			
-			System.out.println("Please enter your first name: ");
+			System.out.println("Please enter dentist's Name: ");
 			String firstName = sc.next();
 			
-			System.out.println("Please enter your last name: ");
+			System.out.println("Please enter dentist's Surname: ");
 			String lastName = sc.next();
 			
-			System.out.println("Please enter your birth date: ");
-			int birthDate = sc.nextInt();
+			System.out.println("Please enter dentist's Birth Day: ");
+			int birthDay = sc.nextInt();
 			
-			System.out.println("Please enter your birth mounth: ");
-			int birthMounth = sc.nextInt();
+			System.out.println("Please enter dentist's Birth Month: ");
+			int birthMonth = sc.nextInt();
 			
-			System.out.println("Please enter your birth year: ");
+			System.out.println("Please enter dentist's Birth Year: ");
 			int birthYear = sc.nextInt();
 			
-			System.out.println("Please enter your JMBG: ");
+			System.out.println("Please enter dentist's JMBG: ");
 			String jmbg = sc.next();
 			int jmbgLength = jmbg.length();
 			//attention, the personal number cant be long,int etc. because
@@ -56,16 +56,63 @@ public class Main {
 				jmbg = jmbg1;
 			}
 				
-			System.out.println("Please enter your specialization:");
+			System.out.println("Please enter dentist's Specialization:");
 			String specialization = sc.next();
 				
-			System.out.println("Please enter your licence ID:");
+			System.out.println("Please enter dentist's Licence ID:");
 			int licenceID = sc.nextInt();
 			
-			Dentist dentist = new Dentist (firstName, lastName, birthDate,birthMounth, birthYear, jmbg, specialization, licenceID);
+			Dentist dentist = new Dentist (firstName, lastName, birthDay, birthMonth, birthYear, jmbg, specialization, licenceID);
 			
 			System.out.println();
 			System.out.println( dentist.getjmbg());
 		}
 	}
+	
+	private static void runDemoPatient() {
+		
+		try(Scanner sc = new Scanner(System.in)) {
+		
+			System.out.println("Please enter patient's Name: ");
+			String name = sc.next();
+			
+			System.out.println("Please enter patient's Surname: ");
+			String surname = sc.next();
+			
+			System.out.println("Please enter patient's Birth Day: ");
+			int birthDay = sc.nextInt();
+			
+			System.out.println("Please enter patient's Birth Month: ");
+			int birthMonth = sc.nextInt();
+			
+			System.out.println("Please enter patient's Birth Year: ");
+			int birthYear = sc.nextInt();
+			
+			System.out.println("Please enter patient's JMBG: ");
+			String jmbg = sc.next();
+			int jmbgLength = jmbg.length();
+			//attention, the personal number cant be long,int etc. because
+			//in the case where the first number is 0 it it will return without it
+			if (jmbgLength < 13 || jmbgLength > 13) {
+				System.out.println("You entered wrong JMBG number!");
+				System.out.println("Please try again.");
+				String jmbg1 = sc.next();
+				jmbg = jmbg1;
+			}
+				
+			System.out.println("Enter patient's Address:");
+			String address = sc.next();
+			
+			System.out.println("Enter patient's City:");
+			String city = sc.next();
+			
+			System.out.println("Enter patient's Phone Number:");
+			int phoneNumber = sc.nextInt();
+			
+			System.out.println("Enter patient's Occupation:");
+			String occupation = sc.next();
+			
+		}
+	}
 }
+

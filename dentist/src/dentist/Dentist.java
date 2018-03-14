@@ -4,18 +4,18 @@ public class Dentist {
 	
 	private String firstName;
 	private String lastName;
-	private int birthDate;
-	private int birthMounth;
+	private int birthDay;
+	private int birthMonth;
 	private int birthYear;
 	private String jmbg;
 	private String specialization;
 	private int licenceID;
 	
-	public Dentist(String firstName, String lastName, int birthDate, int birthMounth, int birthYear, String jmbg, String specialization, int licenceID) {
+	public Dentist(String firstName, String lastName, int birthDay, int birthMonth, int birthYear, String jmbg, String specialization, int licenceID) {
 		this.firstName = firstName;
 		this.lastName = lastName;
-		this.birthDate = birthDate;
-		this.birthMounth = birthMounth;
+		this.birthDay = birthDay;
+		this.birthMonth = birthMonth;
 		this.birthYear = birthYear;
 		this.jmbg = jmbg;
 		this.specialization = specialization;
@@ -31,11 +31,11 @@ public class Dentist {
 	}
 	
 	public int getbirthDate() {
-		return birthDate;
+		return birthDay;
 	}
 	
-	public int getbirthMounth() {
-		return birthMounth;
+	public int getbirthMonth() {
+		return birthMonth;
 	}
 	
 	public int getbirthYear() {

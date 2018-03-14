@@ -4,14 +4,14 @@ public class Patient {
 	
 	private String name;
 	private String surname;
-	private long jmbg;
+	private String jmbg;
 	private int birthDate;
 	private String address;
 	private String city;
 	private int phoneNumber;
 	private String occupation;
 	
-	public Patient(String name, String surname, long jmbg, int birthDate, String address, String city, int phoneNumber, String occupation) {
+	public Patient(String name, String surname, String jmbg, int birthDate, String address, String city, int phoneNumber, String occupation) {
 		this.name = name;
 		this.surname = surname;
 		this.jmbg = jmbg;
@@ -29,7 +29,7 @@ public class Patient {
 		return surname;
 	}
 	
-	public long getJmbg() {
+	public String getJmbg() {
 		return jmbg;
 	}
 	
