@@ -66,6 +66,7 @@ public class Main {
 			
 			System.out.println();
 			System.out.println( dentist.getjmbg());
+			System.out.println("zdravo ");
 		}
 	}
 	
