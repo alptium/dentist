@@ -47,9 +47,8 @@ public class Main {
 			System.out.println("Please enter dentist's JMBG: ");
 			String jmbg = sc.next();
 			int jmbgLength = jmbg.length();
-			//attention, the personal number cant be long,int etc. because
-			//in the case where the first number is 0 it it will return without it
-			if (jmbgLength < 13 || jmbgLength > 13) {
+
+			if (jmbgLength != 13) {
 				System.out.println("You entered wrong JMBG number!");
 				System.out.println("Please try again.");
 				String jmbg1 = sc.next();
@@ -66,7 +65,7 @@ public class Main {
 			
 			System.out.println();
 			System.out.println( dentist.getjmbg());
-			System.out.println("zdravo  preuzeo sam izmenu i dopunio");
+			System.out.println("zdravo  ");
 		}
 	}
 	
@@ -92,9 +91,8 @@ public class Main {
 			System.out.println("Please enter patient's JMBG: ");
 			String jmbg = sc.next();
 			int jmbgLength = jmbg.length();
-			//attention, the personal number cant be long,int etc. because
-			//in the case where the first number is 0 it it will return without it
-			if (jmbgLength < 13 || jmbgLength > 13) {
+			
+			if (jmbgLength != 13) {
 				System.out.println("You entered wrong JMBG number!");
 				System.out.println("Please try again.");
 				String jmbg1 = sc.next();
@@ -113,6 +111,9 @@ public class Main {
 			System.out.println("Enter patient's Occupation:");
 			String occupation = sc.next();
 			
+			Patient patient = new Patient (name, surname, jmbg, birthDay, birthMonth, birthYear, address, city, phoneNumber, occupation);
+			
+			System.out.println(patient.city="Beograd");
 		}
 	}
 }
