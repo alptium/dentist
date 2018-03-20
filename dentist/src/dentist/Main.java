@@ -12,8 +12,7 @@ public class Main {
 			
 			if ( a1.equalsIgnoreCase("Y") ) {
 				runDemoDentist();
-			}
-			else if (a1.equalsIgnoreCase("N") ) {
+			} else if (a1.equalsIgnoreCase("N") ) {
 				System.out.println("You will now enter program to add Patient.");
 				runDemoPatient();
 			}
