@@ -92,7 +92,7 @@ public class Crud {
 	//====================
 	//begin metoda infoPatient
 	
-	public static void infoPatient(String umcn,Connection konek)throws SQLException{
+	public static void infoPatient(String umcn,Connection konek)throws SQLException {
 		
 			PreparedStatement stmt = null;
 			ResultSet rst = null;
@@ -105,31 +105,28 @@ public class Crud {
 			
 			rst = stmt.executeQuery();
 			
-			if (!rst.isBeforeFirst() ) {    
+			if (!rst.isBeforeFirst()) {    
 			    System.out.println("Nema informacija"); 
 			} 
 			while (rst.next()) {
 				String lastName = rst.getString("last_name");
 				String firstName = rst.getString("first_name");
 				String jmbg = rst.getString("jmbg");
-				if(jmbg.equals(null)){System.out.println("ne postojite u bazi");}
 				
+				if(jmbg.equals(null)) {
+					System.out.println("ne postojite u bazi");
+				}
 				
 				System.out.println("Prezime: "+lastName+" Ime:"+firstName+" Jmbg: "+jmbg+"Status");
 				
 			}	
 			
 		
-				}catch (Exception exc) {
-					exc.printStackTrace();
-			}
-				
-			
-
-		
-		
-			
+		} catch(Exception exc) {
+			exc.printStackTrace();
 		}
+
+	}
 		//end metoda infoPatient
 		//	============================================
 	//====================
@@ -216,97 +213,87 @@ public class Crud {
 				//begin metoda createPatient
 				
 				public static void createPatient(Connection konek)throws SQLException{
+					
 						Connection myConn = konek;
-						Scanner input = new Scanner(System.in);
+						
+					try (Scanner input = new Scanner(System.in)) {
 						
 						System.out.println("Unesite prezime");
 						String last_name =input.next();
+						
 						System.out.println("Unesite ime");
 						String first_name = input.next();
+						
 						System.out.println("Unesite email");
 						String email = input.next();
+						
 						System.out.println("Unesite okupacija");
 						String ocupation = input.next();
+						
 						System.out.println("Unesite jmbg");
 						String jmbg = input.next();
 						
-						
 						PreparedStatement stmt = null;
 						
-						
-		
-					try {
-						
-						String query = "INSERT INTO `dentistlocalhost`.`patient` (`last_name`, `first_name`, `email`, `ocupation`, `jmbg`) " +
-								"VALUES ('"+last_name+"', '"+first_name+"', '"+email+"', '"+ocupation+"', '"+jmbg+"')";
-						
-						stmt = myConn.prepareStatement(query);
-						
-						stmt.executeUpdate();
-						
-						
-						
-					
-							}catch (Exception exc) {
-								exc.printStackTrace();
-						}finally{
-							System.out.println("Uspesno upisivanje ");
-						}
+						try {
 							
-					
-					
+							String query = "INSERT INTO `dentistlocalhost`.`patient` (`last_name`, `first_name`, `email`, `ocupation`, `jmbg`) " +
+									"VALUES ('"+last_name+"', '"+first_name+"', '"+email+"', '"+ocupation+"', '"+jmbg+"')";
+							
+							stmt = myConn.prepareStatement(query);
+							
+							stmt.executeUpdate();
+							
+							
+							
 						
-						
+						} catch (Exception exc) {
+									exc.printStackTrace();
+						} finally {
+								System.out.println("Uspesno upisivanje ");
+						}
+								
 					}
+				}
+				
 					//end metoda createPatient
 				//---------------------------------------------------------------------------------------------------------------------------------
 		//begin metoda login
-		public static boolean login(Connection connect)throws SQLException{
-		Scanner input = new Scanner(System.in);
-		System.out.println("unesite jmbg");
-		String in = input.next();
-		PreparedStatement stmt = null;
-		ResultSet rst = null;
-		Connection myConn = connect;
-		try{
-			String query = "Select * From  `dentistlocalhost`.`dentist` where jmbg="+in;
-			stmt = myConn.prepareStatement(query);
-			rst = stmt.executeQuery();
+				
+		public static boolean login(Connection connect) throws SQLException {
 			
-			if (!rst.isBeforeFirst() ) {    
-			    System.out.println("Login Failed, please contact master"); 
-			    
-			}else if(rst.next()) {
-				if(rst.getString("jmbg").equals(in)) {
-					System.out.println("Welcome "+rst.getString("first_name"));
-				}return true;
+			try (Scanner input = new Scanner(System.in)) {
+				
+				System.out.println("unesite jmbg");
+				String in = input.next();
+				
+				PreparedStatement stmt = null;
+				ResultSet rst = null;
+				Connection myConn = connect;
+				
+				try {
+					String query = "Select * From  `dentistlocalhost`.`dentist` where jmbg=" + in;
+					stmt = myConn.prepareStatement(query);
+					rst = stmt.executeQuery();
+					
+					if (!rst.isBeforeFirst()) {    
+					    System.out.println("Login Failed, please contact master"); 
+					    
+					} else if(rst.next()) {
+						if(rst.getString("jmbg").equals(in)) {
+							System.out.println("Welcome "+rst.getString("first_name"));
+						} return true;
+					}
+				}
+				
+				catch (Exception exc) {
+				exc.printStackTrace();
+				}
+
+				input.close();
+				return false;
+				//end metoda login
 			}
-			
-		 
 		}
-			catch (Exception exc) {
-			exc.printStackTrace();
-			}
-		
-		
-	
-		
-		
-		
-		
-		input.close();
-		return false;
-		
-		
-		//end metoda login
-		
-		
-		
-	}
-	
-		
-	
-	
-	
 															//end of class	
-																	}
+}
