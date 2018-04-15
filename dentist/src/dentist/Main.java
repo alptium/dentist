@@ -11,17 +11,17 @@ public class Main {
 			String a1= sc.next().substring(0, 1);
 			
 			if ( a1.equalsIgnoreCase("Y") ) {
-				runDemoDentist();
+				runAddDentist();
 			} else if (a1.equalsIgnoreCase("N") ) {
 				System.out.println("You will now enter program to add Patient.");
-				runDemoPatient();
+				runAddPatient();
 			}
 			
 		}
 	}
 
 
-	private static void runDemoDentist() {
+	private static void runAddDentist() {
 	
 		System.out.println("Follow the instructions to add new Dentist:");
 	
@@ -43,15 +43,13 @@ public class Main {
 			System.out.println("Please enter dentist's Birth Year: ");
 			int birthYear = sc.nextInt();
 			
-			System.out.println("Please enter dentist's JMBG: ");
+			System.out.println("Please enter dentist JMBG: ");
 			String jmbg = sc.next();
-			int jmbgLength = jmbg.length();
-
-			if (jmbgLength != 13) {
+			
+			while (jmbg.length() != 13) {
 				System.out.println("You entered wrong JMBG number!");
 				System.out.println("Please try again.");
-				String jmbg1 = sc.next();
-				jmbg = jmbg1;
+				jmbg = sc.next();
 			}
 				
 			System.out.println("Please enter dentist's Specialization:");
@@ -64,11 +62,11 @@ public class Main {
 			
 			System.out.println();
 			System.out.println( dentist.getjmbg());
-			System.out.println("zdravo  ");
+			
 		}
 	}
 	
-	private static void runDemoPatient() {
+	private static void runAddPatient() {
 		
 		try(Scanner sc = new Scanner(System.in)) {
 		
@@ -89,13 +87,11 @@ public class Main {
 			
 			System.out.println("Please enter patient's JMBG: ");
 			String jmbg = sc.next();
-			int jmbgLength = jmbg.length();
 			
-			if (jmbgLength != 13) {
+			while (jmbg.length() != 13) {
 				System.out.println("You entered wrong JMBG number!");
 				System.out.println("Please try again.");
-				String jmbg1 = sc.next();
-				jmbg = jmbg1;
+				jmbg = sc.next();
 			}
 				
 			System.out.println("Enter patient's Address:");

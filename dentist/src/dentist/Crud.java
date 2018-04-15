@@ -1,4 +1,5 @@
-package crud;
+package dentist;
+//package crud;
 import java.util.*;
 import java.sql.*;
 /**
@@ -13,82 +14,80 @@ import java.sql.*;
 
 public class Crud {
 
-	
 	public static void main(String[] args) throws SQLException {
 		Scanner in = new Scanner(System.in);
 		//uvod i konekcija
-		System.out.println("Dobrodosli\nUpisite informacije za bazu podataka\nHostname:port/imebaze :");
+		System.out.println("Dobrodosli\nUpisite informacije za bazu podataka\nHostname:port/ime baze :");
 		final String hostAndDatabaseName=in.next();
 		System.out.println("Username: ");
 		final String DBusername = in.next();
 		System.out.println("Password: ");
 		final String DBpassword = in.next();
 		
-				
-		Connection kon=konektujSe(hostAndDatabaseName,DBusername,DBpassword);
+		Connection kon = konektujSe(hostAndDatabaseName,DBusername,DBpassword);
 		
 		//izbor
 		
-		
 		System.out.println("Izaberite opciju 1 - Info o pacijentima ili raspored 2 - Login to ISDent ");
 		int opt = in.nextInt();
-		if(opt == 1){		
-					for(;;){
-										System.out.println("Upisite broj zdravstvenog kartona ili exit za izlaz");
-										String brk = in.next();
-										if(brk.equalsIgnoreCase("exit")){System.out.println("Dovidjenja!");System.exit(1);}
-										else{infoPatient(brk,kon);}
-					
-											}
+		if(opt == 1) {		
+			for(;;) {
+				
+				System.out.println("Upisite broj zdravstvenog kartona ili exit za izlaz");
+				String brk = in.next();
+				
+				if(brk.equalsIgnoreCase("exit")) {
+					System.out.println("Dovidjenja!");System.exit(1);
+				} else {
+					infoPatient(brk,kon);
+				}
+			}
 			
-					
-		}
-		else if(opt == 2){
-				if(login(kon)==true){
-					for(;;){
+		} else if(opt == 2) {
+				if(login(kon)==true) {
+					for(;;) {
+						
 						System.out.println("Upisite opciju ili exit za izlaz");
 						System.out.println("A-ispis pacijenata ;C-Update pacijenta ; D-Izbrisi pacijenta; exit- za izlaz");
 						String brk = in.next();
-							if(brk.equalsIgnoreCase("A")){
-								infoPatientlist(kon);
-							}else if(brk.equalsIgnoreCase("C")){
-								createPatient(kon);
-							}else if(brk.equalsIgnoreCase("D")){
-								deletePatient(kon);
-							}else if(brk.equalsIgnoreCase("exit")){System.out.println("Dovidjenja!");System.exit(1);}
 						
-				
+						if(brk.equalsIgnoreCase("A")) {
+							infoPatientlist(kon);
+						} else if(brk.equalsIgnoreCase("C")) {
+							createPatient(kon);
+						} else if(brk.equalsIgnoreCase("D")) {
+							deletePatient(kon);
+						} else if(brk.equalsIgnoreCase("exit")) {
+							System.out.println("Dovidjenja!");System.exit(1);
 						}
+						
+					}
 							
-				};
+				}
 		
 		}
-		
 		
 		in.close();
 	}
 	
-	
 	//begin metoda konektujSe
-	public static  Connection konektujSe(String hostAndDatabaseName , String DBusername , String DBpassword) throws SQLException
-	{ 
+	public static  Connection konektujSe(String hostAndDatabaseName , String DBusername , String DBpassword) throws SQLException {
+		
 		Connection myConn = null;
+		
 		try {
-			
 			myConn = DriverManager.getConnection("jdbc:mysql://"+hostAndDatabaseName+"?autoReconnect=true&useSSL=false",DBusername,DBpassword);
 			System.out.println("Uspesno povezivanje sa bazom");
-			
-			}
-			catch(SQLException e)
-			{
+		}
+		catch(SQLException e) {
 				System.out.println("Neuspesno povezivanje sa bazom");
 				System.exit(1);
-			
-			}
+		}
 	 	
 		return myConn;	
 		
 	}
+	
 	//end metoda konektujSe
 	//====================
 	//begin metoda infoPatient
@@ -99,16 +98,12 @@ public class Crud {
 			ResultSet rst = null;
 			Connection myConn = konek;
 			
-		
-		
 		try {
-			
 			String query = "Select * From  `dentistlocalhost`.`patient` where jmbg="+umcn;
 			
 			stmt = myConn.prepareStatement(query);
 			
 			rst = stmt.executeQuery();
-			
 			
 			if (!rst.isBeforeFirst() ) {    
 			    System.out.println("Nema informacija"); 
@@ -281,14 +276,17 @@ public class Crud {
 			if (!rst.isBeforeFirst() ) {    
 			    System.out.println("Login Failed, please contact master"); 
 			    
-			}else if(rst.next()){if(rst.getString("jmbg").equals(in)){System.out.println("Welcome "+rst.getString("first_name"));}return true;}
+			}else if(rst.next()) {
+				if(rst.getString("jmbg").equals(in)) {
+					System.out.println("Welcome "+rst.getString("first_name"));
+				}return true;
+			}
 			
 		 
 		}
 			catch (Exception exc) {
 			exc.printStackTrace();
-			
-								}
+			}
 		
 		
 	
