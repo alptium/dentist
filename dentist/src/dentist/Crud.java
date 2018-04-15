@@ -76,7 +76,7 @@ public class Crud {
 		Connection myConn = null;
 		
 		try {
-			myConn = DriverManager.getConnection("jdbc:mysql://"+hostAndDatabaseName+"?autoReconnect=true&useSSL=false",DBusername,DBpassword);
+			myConn = DriverManager.getConnection("jdbc:mysql://" + hostAndDatabaseName + "?autoReconnect=true&useSSL=false",DBusername,DBpassword);
 			System.out.println("Uspesno povezivanje sa bazom");
 		}
 		catch(SQLException e) {
@@ -99,7 +99,7 @@ public class Crud {
 			Connection myConn = konek;
 			
 		try {
-			String query = "Select * From  `dentistlocalhost`.`patient` where jmbg="+umcn;
+			String query = "Select * From  `dentistlocalhost`.`patient` where jmbg=" + umcn;
 			
 			stmt = myConn.prepareStatement(query);
 			
@@ -117,7 +117,7 @@ public class Crud {
 					System.out.println("ne postojite u bazi");
 				}
 				
-				System.out.println("Prezime: "+lastName+" Ime:"+firstName+" Jmbg: "+jmbg+"Status");
+				System.out.println("Prezime: " + lastName + " Ime: " + firstName + " JMBG: " + jmbg + " Status");
 				
 			}	
 			
@@ -159,20 +159,14 @@ public class Crud {
 					if(jmbg.equals(null)){System.out.println("ne postojite u bazi");}
 					
 					
-					System.out.println("Prezime: "+lastName+" Ime:"+firstName+" Jmbg: "+jmbg+"Status");
+					System.out.println("Prezime: " + lastName + " Ime: " + firstName + " JMBG: " + jmbg + " Status");
 					
 				}	
-				
-			
+
 					}catch (Exception exc) {
 						exc.printStackTrace();
 				}
-					
-				
 
-			
-			
-				
 			}
 			//end metoda infoPatientlist
 		//----------------------------------------------------------------------------------------------------------------------
@@ -184,12 +178,10 @@ public class Crud {
 						Connection myConn = konek;
 						System.out.println("unesite jmbg pacijenta koga zelite da izbrisete");
 						String in = input.nextLine();
-						
-					
-					
+
 					try {
 						
-						String query = "Delete From  `dentistlocalhost`.`patient` where jmbg=\""+in+" \"";
+						String query = "Delete From  `dentistlocalhost`.`patient` where jmbg=\"" + in + " \"";
 						
 						stmt = myConn.prepareStatement(query);
 						
@@ -212,7 +204,7 @@ public class Crud {
 			
 				//begin metoda createPatient
 				
-				public static void createPatient(Connection konek)throws SQLException{
+				public static void createPatient(Connection konek) throws SQLException {
 					
 						Connection myConn = konek;
 						
@@ -238,15 +230,12 @@ public class Crud {
 						try {
 							
 							String query = "INSERT INTO `dentistlocalhost`.`patient` (`last_name`, `first_name`, `email`, `ocupation`, `jmbg`) " +
-									"VALUES ('"+last_name+"', '"+first_name+"', '"+email+"', '"+ocupation+"', '"+jmbg+"')";
+									"VALUES ('" + last_name + "', '" + first_name + "', '" + email + "', '" + ocupation + "', '" + jmbg + "')";
 							
 							stmt = myConn.prepareStatement(query);
 							
 							stmt.executeUpdate();
-							
-							
-							
-						
+			
 						} catch (Exception exc) {
 									exc.printStackTrace();
 						} finally {
@@ -281,7 +270,7 @@ public class Crud {
 					    
 					} else if(rst.next()) {
 						if(rst.getString("jmbg").equals(in)) {
-							System.out.println("Welcome "+rst.getString("first_name"));
+							System.out.println("Welcome " + rst.getString("first_name"));
 						} return true;
 					}
 				}
