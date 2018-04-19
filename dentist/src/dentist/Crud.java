@@ -17,14 +17,15 @@ public class Crud {
 	public static void main(String[] args) throws SQLException {
 		Scanner in = new Scanner(System.in);
 		//uvod i konekcija
-		System.out.println("Dobrodosli\nUpisite informacije za bazu podataka\nHostname:port/ime baze :");
-		final String hostAndDatabaseName=in.next();
+		/*System.out.println("Dobrodosli\nUpisite informacije za bazu podataka\nHostname:port/ime baze :");
+		final String hostAndDatabaseName=in.next();*/
 		System.out.println("Username: ");
 		final String DBusername = in.next();
 		System.out.println("Password: ");
 		final String DBpassword = in.next();
 		
-		Connection kon = konektujSe(hostAndDatabaseName,DBusername,DBpassword);
+		String url = "jdbc:mysql://localhost:3306/dentist";
+		Connection kon = konektujSe( url , DBusername, DBpassword);		//promenjeno u URL
 		
 		//izbor
 		
@@ -44,7 +45,7 @@ public class Crud {
 			}
 			
 		} else if(opt == 2) {
-				if(login(kon)==true) {
+				/*if(login(kon) == true)*/ {
 					for(;;) {
 						
 						System.out.println("Upisite opciju ili exit za izlaz");
@@ -71,16 +72,16 @@ public class Crud {
 	}
 	
 	//begin metoda konektujSe
-	public static  Connection konektujSe(String hostAndDatabaseName , String DBusername , String DBpassword) throws SQLException {
+	public static  Connection konektujSe(String /*hostAndDatabaseName*/ url , String DBusername , String DBpassword) throws SQLException {		//promenjeno u URL
 		
 		Connection myConn = null;
-		
+		url = "jdbc:mysql://localhost:3306/dentist";  		// dodata URL da bi se rešio problem sa konekcijom
 		try {
-			myConn = DriverManager.getConnection("jdbc:mysql://" + hostAndDatabaseName + "?autoReconnect=true&useSSL=false",DBusername,DBpassword);
-			System.out.println("Uspesno povezivanje sa bazom");
+			myConn = DriverManager.getConnection(/*"jdbc:mysql://" + hostAndDatabaseName + "?autoReconnect=true&useSSL=false"*/ url ,DBusername,DBpassword);
+			System.out.println("Uspešno povezivanje sa bazom");
 		}
 		catch(SQLException e) {
-				System.out.println("Neuspesno povezivanje sa bazom");
+				System.out.println("Neuspešno povezivanje sa bazom");
 				System.exit(1);
 		}
 	 	
@@ -99,7 +100,7 @@ public class Crud {
 			Connection myConn = konek;
 			
 		try {
-			String query = "Select * From  `dentistlocalhost`.`patient` where jmbg=" + umcn;
+			String query = "Select * From  `dentist`.`patient` where jmbg=" + umcn;
 			
 			stmt = myConn.prepareStatement(query);
 			
@@ -142,7 +143,7 @@ public class Crud {
 			
 			try {
 				
-				String query = "Select * From  `dentistlocalhost`.`patient`";
+				String query = "Select * From  `dentist`.`patient`";
 				
 				stmt = myConn.prepareStatement(query);
 				
@@ -153,13 +154,13 @@ public class Crud {
 				    System.out.println("Nema informacija"); 
 				} 
 				while (rst.next()) {
-					String lastName = rst.getString("last_name");
-					String firstName = rst.getString("first_name");
+					String surname = rst.getString("surname");
+					String name = rst.getString("name");
 					String jmbg = rst.getString("jmbg");
 					if(jmbg.equals(null)){System.out.println("ne postojite u bazi");}
 					
 					
-					System.out.println("Prezime: " + lastName + " Ime: " + firstName + " JMBG: " + jmbg + " Status");
+					System.out.println("Prezime: " + surname + " Ime: " + name + " JMBG: " + jmbg + " Status");
 					
 				}	
 
@@ -181,7 +182,7 @@ public class Crud {
 
 					try {
 						
-						String query = "Delete From  `dentistlocalhost`.`patient` where jmbg=\"" + in + " \"";
+						String query = "Delete From  `dentist`.`patient` where jmbg=\"" + in + " \"";
 						
 						stmt = myConn.prepareStatement(query);
 						
@@ -208,29 +209,50 @@ public class Crud {
 					
 						Connection myConn = konek;
 						
-					try (Scanner input = new Scanner(System.in)) {
+					try (Scanner sc = new Scanner(System.in)) {
 						
-						System.out.println("Unesite prezime");
-						String last_name =input.next();
+						System.out.println("Please enter patient's Name: ");
+						String name = sc.next();
 						
-						System.out.println("Unesite ime");
-						String first_name = input.next();
+						/*System.out.println("Please enter patient's Surname: ");
+						String surname = sc.next();
 						
-						System.out.println("Unesite email");
-						String email = input.next();
+						System.out.println("Please enter patient's Birth Day: ");
+						int birthDay = sc.nextInt();
 						
-						System.out.println("Unesite okupacija");
-						String ocupation = input.next();
+						System.out.println("Please enter patient's Birth Month: ");
+						int birthMonth = sc.nextInt();
 						
-						System.out.println("Unesite jmbg");
-						String jmbg = input.next();
+						System.out.println("Please enter patient's Birth Year: ");
+						int birthYear = sc.nextInt();
+						
+						System.out.println("Please enter patient's JMBG: ");
+						String jmbg = sc.next();
+						
+						while (jmbg.length() != 13) {
+							System.out.println("You entered wrong JMBG number!");
+							System.out.println("Please try again.");
+							jmbg = sc.next();
+						}
+							
+						System.out.println("Enter patient's Address:");
+						String address = sc.next();
+						
+						System.out.println("Enter patient's City:");
+						String city = sc.next();
+						
+						System.out.println("Enter patient's Phone Number:");
+						int phoneNumber = sc.nextInt();
+						
+						System.out.println("Enter patient's Occupation:");
+						String occupation = sc.next();*/
 						
 						PreparedStatement stmt = null;
 						
 						try {
 							
-							String query = "INSERT INTO `dentistlocalhost`.`patient` (`last_name`, `first_name`, `email`, `ocupation`, `jmbg`) " +
-									"VALUES ('" + last_name + "', '" + first_name + "', '" + email + "', '" + ocupation + "', '" + jmbg + "')";
+							String query = "INSERT INTO `dentist`.`patient` (`name`, `surname`, `birthDay`, `birthMonth`, `birthYear`,`jmbg`, `address`, `city`, `phoneNumber`, `occupation`) VALUES (name)"
+									/*"VALUES ('" + name + "', '" + surname + "', '" + birthDay + "', '" + birthMonth + "', '" + birthYear + "', '" + jmbg + "', '" + address + "', '" + city + "', '" + phoneNumber + "', '" + occupation + "')"*/;
 							
 							stmt = myConn.prepareStatement(query);
 							
@@ -261,7 +283,7 @@ public class Crud {
 				Connection myConn = connect;
 				
 				try {
-					String query = "Select * From  `dentistlocalhost`.`dentist` where jmbg=" + in;
+					String query = "Select * From  `dentist`.`dentist` where jmbg=" + in; //preprravljen `dentistlocalhost` u `dentist`
 					stmt = myConn.prepareStatement(query);
 					rst = stmt.executeQuery();
 					

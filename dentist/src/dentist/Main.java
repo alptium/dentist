@@ -7,6 +7,7 @@ public class Main {
 		
 		try(Scanner sc = new Scanner(System.in)) {
 			
+		
 			System.out.println("Do you want to add Doctor? (Y/N)");
 			String a1= sc.next().substring(0, 1);
 			
