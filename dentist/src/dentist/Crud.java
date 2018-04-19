@@ -15,51 +15,66 @@ import java.sql.*;
 public class Crud {
 
 	public static void main(String[] args) throws SQLException {
-		Scanner in = new Scanner(System.in);
+		Scanner sc = new Scanner(System.in);
 		//uvod i konekcija
 		/*System.out.println("Dobrodosli\nUpisite informacije za bazu podataka\nHostname:port/ime baze :");
 		final String hostAndDatabaseName=in.next();*/
+		System.out.println("==========================================================");
 		System.out.println("Username: ");
-		final String DBusername = in.next();
+		final String DBusername = sc.next();
+		
 		System.out.println("Password: ");
-		final String DBpassword = in.next();
+		final String DBpassword = sc.next();
 		
 		String url = "jdbc:mysql://localhost:3306/dentist";
 		Connection kon = konektujSe( url , DBusername, DBpassword);		//promenjeno u URL
 		
 		//izbor
 		
-		System.out.println("Izaberite opciju 1 - Info o pacijentima ili raspored 2 - Login to ISDent ");
-		int opt = in.nextInt();
+		System.out.println("==========================================================");
+		System.out.println("Izaberite opciju ");
+		System.out.println("1 - Raspored");
+		System.out.println("2 - Dentist INFORMACIONI SISTEM");
+		int opt = sc.nextInt();
+		
 		if(opt == 1) {		
 			for(;;) {
+				System.out.println("==========================================================");
+				System.out.println("Upisite broj zdravstvenog kartona ili (E) za izlaz");
+				String brk = sc.next();
 				
-				System.out.println("Upisite broj zdravstvenog kartona ili exit za izlaz");
-				String brk = in.next();
-				
-				if(brk.equalsIgnoreCase("exit")) {
-					System.out.println("Dovidjenja!");System.exit(1);
+				if(brk.equalsIgnoreCase("E")) {
+					System.out.println("Dovidjenja!");
+					System.out.println("==========================================================");
+					System.exit(1);
 				} else {
-					infoPatient(brk,kon);
+					infoPatient(brk, kon);
 				}
 			}
 			
 		} else if(opt == 2) {
 				/*if(login(kon) == true)*/ {
 					for(;;) {
-						
-						System.out.println("Upisite opciju ili exit za izlaz");
-						System.out.println("A-ispis pacijenata ;C-Update pacijenta ; D-Izbrisi pacijenta; exit- za izlaz");
-						String brk = in.next();
+						System.out.println("==========================================================");
+						System.out.println("Upišite opciju koju želite da koristite:");
+						System.out.println("A - lista svih pacijenata");
+						System.out.println("B - pretraga pacijenta");
+						System.out.println("C - dodavanje novog pacijenta");
+						System.out.println("D - brisanje pacijenta");
+						System.out.println("E - izlaz iz aplikacije");
+						String brk = sc.next();
 						
 						if(brk.equalsIgnoreCase("A")) {
 							infoPatientlist(kon);
+						} else if(brk.equalsIgnoreCase("B")) {
+							infoPatient(brk, kon);
 						} else if(brk.equalsIgnoreCase("C")) {
 							createPatient(kon);
 						} else if(brk.equalsIgnoreCase("D")) {
 							deletePatient(kon);
-						} else if(brk.equalsIgnoreCase("exit")) {
-							System.out.println("Dovidjenja!");System.exit(1);
+						} else if(brk.equalsIgnoreCase("E")) {
+							System.out.println("Dovidjenja!");
+							System.exit(1);
 						}
 						
 					}
@@ -68,7 +83,7 @@ public class Crud {
 		
 		}
 		
-		in.close();
+		sc.close();
 	}
 	
 	//begin metoda konektujSe
@@ -79,9 +94,11 @@ public class Crud {
 		try {
 			myConn = DriverManager.getConnection(/*"jdbc:mysql://" + hostAndDatabaseName + "?autoReconnect=true&useSSL=false"*/ url ,DBusername,DBpassword);
 			System.out.println("Uspešno povezivanje sa bazom");
+			System.out.println("==========================================================");
 		}
 		catch(SQLException e) {
 				System.out.println("Neuspešno povezivanje sa bazom");
+				System.out.println("==========================================================");
 				System.exit(1);
 		}
 	 	
@@ -93,31 +110,33 @@ public class Crud {
 	//====================
 	//begin metoda infoPatient
 	
-	public static void infoPatient(String umcn,Connection konek)throws SQLException {
+	public static void infoPatient(String umcn, Connection kon)throws SQLException {
 		
 			PreparedStatement stmt = null;
-			ResultSet rst = null;
-			Connection myConn = konek;
+			ResultSet result = null;
+			Connection myConn = kon;
 			
 		try {
 			String query = "Select * From  `dentist`.`patient` where jmbg=" + umcn;
 			
 			stmt = myConn.prepareStatement(query);
 			
-			rst = stmt.executeQuery();
+			result = stmt.executeQuery();
 			
-			if (!rst.isBeforeFirst()) {    
+			if (!result.isBeforeFirst()) {    
 			    System.out.println("Nema informacija"); 
 			} 
-			while (rst.next()) {
-				String lastName = rst.getString("last_name");
-				String firstName = rst.getString("first_name");
-				String jmbg = rst.getString("jmbg");
+			while (result.next()) {
+				String lastName = result.getString("last_name");
+				String firstName = result.getString("first_name");
+				String jmbg = result.getString("jmbg");
+				System.out.println("==========================================================");
 				
 				if(jmbg.equals(null)) {
-					System.out.println("ne postojite u bazi");
+					System.out.println("Pacijent ne postoji u bazi");
 				}
 				
+				System.out.println("==========================================================");
 				System.out.println("Prezime: " + lastName + " Ime: " + firstName + " JMBG: " + jmbg + " Status");
 				
 			}	
@@ -157,10 +176,13 @@ public class Crud {
 					String surname = rst.getString("surname");
 					String name = rst.getString("name");
 					String jmbg = rst.getString("jmbg");
-					if(jmbg.equals(null)){System.out.println("ne postojite u bazi");}
 					
+					if(jmbg.equals(null)) {
+						System.out.println("ne postojite u bazi");
+					}
 					
-					System.out.println("Prezime: " + surname + " Ime: " + name + " JMBG: " + jmbg + " Status");
+					System.out.println("---------------------------------------------------------");
+					System.out.println("Prezime: " + surname + " Ime: " + name + " JMBG: " + jmbg);
 					
 				}	
 
@@ -275,7 +297,8 @@ public class Crud {
 			
 			try (Scanner input = new Scanner(System.in)) {
 				
-				System.out.println("unesite jmbg");
+				System.out.println("Welcome doctor");
+				System.out.println("Please enter your jmbg :");
 				String in = input.next();
 				
 				PreparedStatement stmt = null;
