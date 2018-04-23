@@ -1,116 +1,299 @@
 package dentist;
-import java.util.Scanner;
+
+import java.util.*;
+import java.sql.*;
+/**
+ * @author Djordje Milosevic 
+ * @team alptuim/dentist
+ * CRUD - 
+ * Create(Kreira podatke)
+ * Read	 (Cita podatke)
+ * Update(Unosi podatke)
+ * Delete(Brise podatke)
+ **/
+
 public class Main {
 
-	public static void main(String[] args) {
-		System.out.println("Welcome to Dentist app!");
-		
-		try(Scanner sc = new Scanner(System.in)) {
-			
-		
-			System.out.println("Do you want to add Doctor? (Y/N)");
-			String a1= sc.next().substring(0, 1);
-			
-			if ( a1.equalsIgnoreCase("Y") ) {
-				runAddDentist();
-			} else if (a1.equalsIgnoreCase("N") ) {
-				System.out.println("You will now enter program to add Patient.");
-				runAddPatient();
-			}
-			
-		}
-	}
-
-
-	private static void runAddDentist() {
 	
-		System.out.println("Follow the instructions to add new Dentist:");
-	
-		try(Scanner sc = new Scanner(System.in)) {
+	public static void main(String[] args) throws SQLException {
+		Scanner in = new Scanner(System.in);
+		
+		
+		//uvod i konekcija
+		System.out.println("Welcome\n please enter your local database login informations");
+		System.out.println("\n1.Input your host, port and the database name example (localhost:3306/alptium_dentistlocalhost)");
+		final String hostAndDatabaseName=in.next();
+		System.out.println("Username: ");
+		final String DBusername = in.next();
+		System.out.println("Password: ");
+		final String DBpassword = in.next();
 				
-			
-			System.out.println("Please enter dentist's Name: ");
-			String firstName = sc.next();
-			
-			System.out.println("Please enter dentist's Surname: ");
-			String lastName = sc.next();
-			
-			System.out.println("Please enter dentist's Birth Day: ");
-			int birthDay = sc.nextInt();
-			
-			System.out.println("Please enter dentist's Birth Month: ");
-			int birthMonth = sc.nextInt();
-			
-			System.out.println("Please enter dentist's Birth Year: ");
-			int birthYear = sc.nextInt();
-			
-			System.out.println("Please enter dentist JMBG: ");
-			String jmbg = sc.next();
-			
-			while (jmbg.length() != 13) {
-				System.out.println("You entered wrong JMBG number!");
-				System.out.println("Please try again.");
-				jmbg = sc.next();
-			}
+		Connection kon = konektujSe(hostAndDatabaseName,DBusername,DBpassword);
+		
+		System.out.println("========================WELCOME=======================");
+		
+		System.out.println("Please select \n (1) - Patient info and schedule  or (2) - Login to Information System Alptium Dentist ");
+		int opt = in.nextInt();
+				if(opt == 1){		
+					for(;;){
+										System.out.println("Upisite broj zdravstvenog kartona ili exit za izlaz");
+										String brk = in.next();
+										if(brk.equalsIgnoreCase("exit")){System.out.println("Dovidjenja!");System.exit(1);}
+										else{infoPatient(brk,kon);}
+						   }
 				
-			System.out.println("Please enter dentist's Specialization:");
-			String specialization = sc.next();
+						    }
+		else if(opt == 2){
+				if(login(kon)==true){
+					for(;;){
+						System.out.println("Upisite opciju ili exit za izlaz");
+						System.out.println("A-ispis pacijenata ;C-Update pacijenta ; D-Izbrisi pacijenta; exit- za izlaz");
+						String brk = in.next();
+							if(brk.equalsIgnoreCase("A")){
+								infoPatientlist(kon);
+							}else if(brk.equalsIgnoreCase("C")){
+								createPatient(kon);
+							}else if(brk.equalsIgnoreCase("D")){
+								deletePatient(kon);
+							}else if(brk.equalsIgnoreCase("exit")){System.out.println("Dovidjenja!");System.exit(1);}
+						
 				
-			System.out.println("Please enter dentist's Licence ID:");
-			int licenceID = sc.nextInt();
-			
-			Dentist dentist = new Dentist (firstName, lastName, birthDay, birthMonth, birthYear, jmbg, specialization, licenceID);
-			
-			System.out.println();
-			System.out.println( dentist.getjmbg());
-			
+						}
+							
+				};
+		
 		}
+		
+		
+		in.close();
 	}
 	
-	private static void runAddPatient() {
+	
+	//begin metoda konektujSe
+	public static  Connection konektujSe(String hostAndDatabaseName , String DBusername , String DBpassword) throws SQLException
+	{ 
+		Connection myConn = null;
+		try {
+			
+			myConn = DriverManager.getConnection("jdbc:mysql://"+hostAndDatabaseName+"?autoReconnect=true&useSSL=false",DBusername,DBpassword);
+			System.out.println("Uspesno povezivanje sa bazom");
+			
+			}
+			catch(SQLException e)
+			{
+				System.out.println("Neuspesno povezivanje sa bazom");
+				System.exit(1);
+			
+			}
+	 	
+		return myConn;	
 		
-		try(Scanner sc = new Scanner(System.in)) {
+	}
+	//end metoda konektujSe
+	//====================
+	//begin metoda infoPatient
+	
+	public static void infoPatient(String umcn,Connection konek)throws SQLException{
 		
-			System.out.println("Please enter patient's Name: ");
-			String name = sc.next();
+			PreparedStatement stmt = null;
+			ResultSet rst = null;
+			Connection myConn = konek;
 			
-			System.out.println("Please enter patient's Surname: ");
-			String surname = sc.next();
+		
+		
+		try {
 			
-			System.out.println("Please enter patient's Birth Day: ");
-			int birthDay = sc.nextInt();
+			String query = "Select * From  `dentistlocalhost`.`patient` where jmbg="+umcn;
 			
-			System.out.println("Please enter patient's Birth Month: ");
-			int birthMonth = sc.nextInt();
+			stmt = myConn.prepareStatement(query);
 			
-			System.out.println("Please enter patient's Birth Year: ");
-			int birthYear = sc.nextInt();
+			rst = stmt.executeQuery();
 			
-			System.out.println("Please enter patient's JMBG: ");
-			String jmbg = sc.next();
 			
-			while (jmbg.length() != 13) {
-				System.out.println("You entered wrong JMBG number!");
-				System.out.println("Please try again.");
-				jmbg = sc.next();
+			if (!rst.isBeforeFirst() ) {    
+			    System.out.println("Nema informacija"); 
+			} 
+			while (rst.next()) {
+				String lastName = rst.getString("last_name");
+				String firstName = rst.getString("first_name");
+				String jmbg = rst.getString("jmbg");
+				if(jmbg.equals(null)){System.out.println("ne postojite u bazi");}
+				
+				
+				System.out.println("Prezime: "+lastName+" Ime:"+firstName+" Jmbg: "+jmbg+"Status");
+				
+			}	
+			
+		
+				}catch (Exception exc) {
+					exc.printStackTrace();
 			}
 				
-			System.out.println("Enter patient's Address:");
-			String address = sc.next();
 			
-			System.out.println("Enter patient's City:");
-			String city = sc.next();
-			
-			System.out.println("Enter patient's Phone Number:");
-			int phoneNumber = sc.nextInt();
-			
-			System.out.println("Enter patient's Occupation:");
-			String occupation = sc.next();
-			
-			Patient patient = new Patient (name, surname, jmbg, birthDay, birthMonth, birthYear, address, city, phoneNumber, occupation);
-			
-			System.out.println(patient.city="Beograd");
-		}
-	}
-}
 
+		
+		
+			
+		}
+		//end metoda infoPatient
+		//	============================================
+	//====================
+		//begin metoda infoPatientlist
+		
+		public static void infoPatientlist(Connection konek)throws SQLException{
+			
+				PreparedStatement stmt = null;
+				ResultSet rst = null;
+				Connection myConn = konek;
+				
+			
+			
+			try {
+				
+				String query = "Select * From  `dentistlocalhost`.`patient`";
+				
+				stmt = myConn.prepareStatement(query);
+				
+				rst = stmt.executeQuery();
+				
+				
+				if (!rst.isBeforeFirst() ) {    
+				    System.out.println("Nema informacija"); 
+				} 
+				while (rst.next()) {
+					String lastName = rst.getString("last_name");
+					String firstName = rst.getString("first_name");
+					String jmbg = rst.getString("jmbg");
+					if(jmbg.equals(null)){System.out.println("ne postojite u bazi");}
+					
+					
+					System.out.println("Prezime: "+lastName+" Ime:"+firstName+" Jmbg: "+jmbg+"Status");
+					
+				}	
+				
+			
+					}catch (Exception exc) {
+						exc.printStackTrace();
+				}
+					
+				
+
+			
+			
+				
+			}
+			//end metoda infoPatientlist
+		//----------------------------------------------------------------------------------------------------------------------
+		//begin metoda deletePatient
+		
+				public static void deletePatient(Connection konek)throws SQLException{
+						Scanner input = new Scanner(System.in);
+						PreparedStatement stmt = null;
+						Connection myConn = konek;
+						System.out.println("unesite jmbg pacijenta koga zelite da izbrisete");
+						String in = input.nextLine();
+						
+					
+					
+					try {
+						
+						String query = "Delete From  `dentistlocalhost`.`patient` where jmbg=\""+in+" \"";
+						
+						stmt = myConn.prepareStatement(query);
+						
+						stmt.executeUpdate();
+						
+						
+						System.out.println("Uspesno brisanje ");
+					
+							}catch (Exception exc) {
+								exc.printStackTrace();
+						}
+							
+					
+					input.close();
+					
+						
+					}
+					//end metoda deletePatientlist
+				//-------------------------------------------------------------------------------------------------------------
+			
+				//begin metoda createPatient
+				
+				public static void createPatient(Connection konek)throws SQLException{
+						Connection myConn = konek;
+						Scanner input = new Scanner(System.in);
+						System.out.println("Unesite prezime");
+						String last_name =input.next();
+						System.out.println("Unesite ime");
+						String first_name = input.next();
+						System.out.println("Unesite email");
+						String email = input.next();
+						System.out.println("Unesite okupacija");
+						String ocupation = input.next();
+						System.out.println("Unesite jmbg");
+						String jmbg = input.next();
+						
+						
+						PreparedStatement stmt = null;
+						
+						
+		
+					try {
+						
+						String query = "INSERT INTO `dentistlocalhost`.`patient` (`last_name`, `first_name`, `email`, `ocupation`, `jmbg`) " +
+								"VALUES ('"+last_name+"', '"+first_name+"', '"+email+"', '"+ocupation+"', '"+jmbg+"')";
+						
+						stmt = myConn.prepareStatement(query);
+						
+						stmt.executeUpdate();
+
+							}catch (Exception exc) {
+								exc.printStackTrace();
+						}finally{
+							System.out.println("Uspesno upisivanje ");
+						}
+
+					}
+					//end metoda createPatient
+				//---------------------------------------------------------------------------------------------------------------------------------
+		//begin metoda login
+		public static boolean login(Connection connect)throws SQLException{
+		Scanner input = new Scanner(System.in);
+		System.out.println("Input UPN");
+		String in = input.next();
+		System.out.println("Input PASSWORD");
+		String pa = input.next();
+		
+		
+		PreparedStatement stmt = null;
+		ResultSet rst = null;
+		Connection myConn = connect;
+		try{
+			String query = "Select * From  `alptium_dentistlocalhost`.`dentist` where UNIQUE_PERSONAL_NUMBER="+in+" AND PASSWORD="+pa;
+			stmt = myConn.prepareStatement(query);
+			rst = stmt.executeQuery();
+			if (!rst.isBeforeFirst() ) {    
+			    System.out.println("Login Failed, please contact master"); 
+			}else if(rst.next()){if(rst.getString("UNIQUE_PERSONAL_NUMBER").equals(in) && rst.getString("PASSWORD").equals(pa))
+			{
+				System.out.println("Welcome "+rst.getString("first_name"));
+				return true;}
+			}
+			
+		 
+		}
+			catch (Exception exc) {
+			exc.printStackTrace();
+			
+								}
+		System.out.println("UNSUCCESSFUL LOGIN,GODBYE");
+		input.close();
+		return false;
+		
+		//end metoda login
+		
+	}
+	
+															//end of class	
+																	}
