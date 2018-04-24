@@ -26,7 +26,7 @@ public class Crud {
 		System.out.println("Password: ");
 		final String DBpassword = sc.next();
 		
-		String url = "jdbc:mysql://localhost:3306/dentist";
+		String url = "jdbc:mysql://localhost:3306/alptium_dentistlocalhost";
 		Connection kon = konektujSe( url , DBusername, DBpassword);		//promenjeno u URL
 		
 		//izbor
