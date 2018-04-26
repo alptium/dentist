@@ -1,6 +1,7 @@
 package dentist;
 
 import java.util.*;
+import java.io.IOException;
 import java.sql.*;
 /**
  * @author Djordje Milosevic 
@@ -10,13 +11,15 @@ import java.sql.*;
  * Read	 (Cita podatke)
  * Update(Unosi podatke)
  * Delete(Brise podatke)
+ * localhost:3307/alptium_dentistlocalhost
  **/
 
 public class Main {
 
 	public static void main(String[] args) throws SQLException {
 		
-		try(Scanner sc = new Scanner(System.in)) {
+		Scanner sc = new Scanner(System.in);
+		
 
 			System.out.println("------- Welcome! -------\nPlease enter your local database login informations.");
 			
@@ -34,6 +37,7 @@ public class Main {
 			System.out.println("========================WELCOME==========================");
 			
 			System.out.println("Please select option:\n(1) - Patient info and schedule \n(2) - Login to Information System Alptium Dentist ");
+			
 			int opt = sc.nextInt();
 			
 			if(opt == 1) {		
@@ -47,34 +51,39 @@ public class Main {
 						infoPatient(patientUpn, kon);
 					}
 				}
-			} else if(opt == 2) {
-				if(login(kon) == true) {
-					for(;;) {
-						System.out.println("------------------------------------------------------");
+			 } else if(opt == 2) {	
+				if(login(kon)) {
+					String brk;
+					
+					do { 
+						
+					 brk = sc.nextLine();
+					 System.out.println("------------------------------------------------------");
 						System.out.println("Please select option: ");
 						System.out.println("A - List of all patients \nC - Create a new patient \nD - Delete the patient \nE - Exit the program");
-						String brk = sc.next();
+					 if(brk.equalsIgnoreCase("A")) {
+							infoPatientlist(kon);
+						} else if(brk.equalsIgnoreCase("C")) {
+							createPatient(kon);
+						} else if(brk.equalsIgnoreCase("D")) {
+							deletePatient(kon);
+						} else if(brk.equalsIgnoreCase("E")) {
+							System.out.println("========================GODBYE=========================");
+							System.exit(1);
+						}
+					
 						
-							if(brk.equalsIgnoreCase("A")) {
-								infoPatientlist(kon);
-							} else if(brk.equalsIgnoreCase("C")) {
-								createPatient(kon);
-							} else if(brk.equalsIgnoreCase("D")) {
-								deletePatient(kon);
-							} else if(brk.equalsIgnoreCase("E")) {
-								System.out.println("========================GODBYE=========================");
-								System.exit(1);
-							}
-
-					}
-
-				}
+						
+					}	while(!brk.equalsIgnoreCase("exit"));				
+					
 			
-			}
+						
+					
+
 			
-			sc.close();
-		}
-	}
+		sc.close();
+		}}};
+	
 	
 	//begin metod connection
 	public static  Connection connection(String hostAndDatabaseName , String DBusername , String DBpassword) throws SQLException { 
@@ -183,17 +192,12 @@ public class Main {
 				System.out.println("Enter UPN(JMBG) patient's you want to delete");
 				String upnDeletePatient = input.nextLine();
 				
-				try {
-					String query = "DELETE FROM `alptium_dentistlocalhost`.`patient` WHERE `UNIQUE_PERSONAL_NUMBER` = " + "'" + upnDeletePatient + "'";
-					stmt = myConn.prepareStatement(query);
-					stmt.executeUpdate();
-					System.out.println("Successful deleting ");
-				
-					} catch (Exception exc) {
-							exc.printStackTrace();
-					}
+				String query = "DELETE FROM `alptium_dentistlocalhost`.`patient` WHERE `UNIQUE_PERSONAL_NUMBER` = " + "'" + upnDeletePatient + "'";
+				stmt = myConn.prepareStatement(query);
+				stmt.executeUpdate();
+				System.out.println("Successful deleting ");
 						
-				input.close();
+				
 			}
 		}
 		
@@ -252,7 +256,7 @@ public class Main {
 		
 		public static boolean login(Connection connect) throws SQLException {
 			
-		try(Scanner sc = new Scanner(System.in)) {
+			Scanner sc = new Scanner(System.in);
 			System.out.println("Input UPN");
 			String upn = sc.next();
 			System.out.println("Input PASSWORD");
@@ -261,8 +265,8 @@ public class Main {
 			PreparedStatement stmt = null;
 			ResultSet result = null;
 			Connection myConn = connect;
-			try {
-				String query = "Select * From  `alptium_dentistlocalhost`.`dentist` where UNIQUE_PERSONAL_NUMBER=" + upn + " AND PASSWORD=" + password;
+			
+				String query = "Select * From  `alptium_dentistlocalhost`.`dentist` where UNIQUE_PERSONAL_NUMBER=" + upn + " AND PASSWORD=" +password;
 				stmt = myConn.prepareStatement(query);
 				result = stmt.executeQuery();
 				
@@ -273,21 +277,18 @@ public class Main {
 						System.out.println("=======================================================");
 						System.out.println("Welcome " + result.getString("FIRST_NAME"));
 						return true;
+						
 					}
-				}
-			 
-			}
-			catch (Exception exc) {
-				exc.printStackTrace();
-			}
+				
 			
 			System.out.println("UNSUCCESSFUL LOGIN!");
 			System.out.println("========================GODBYE=========================");
-			sc.close();
+			
 			return false;
 			
 			//end metoda login
 		}
+				return false;
 	}
 	
 															//end of class	
