@@ -11,7 +11,7 @@ import java.sql.*;
  * Read	 (Cita podatke)
  * Update(Unosi podatke)
  * Delete(Brise podatke)
- * localhost:3307/alptium_dentistlocalhost
+ * localhost:3306/alptium_dentistlocalhost
  **/
 
 public class Main {
