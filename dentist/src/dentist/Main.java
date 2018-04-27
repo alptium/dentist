@@ -65,9 +65,9 @@ public class Main {
 						 if(brk.equalsIgnoreCase("A")) {
 								infoPatientlist(kon);
 							} else if(brk.equalsIgnoreCase("C")) {
-								createPatient(kon);
+								createPatient(kon);					//TODO: Testirati zasto nece da radi
 							} else if(brk.equalsIgnoreCase("D")) {
-								deletePatient(kon);
+								deletePatient(kon);					
 							} else if(brk.equalsIgnoreCase("E")) {
 								System.out.println("========================GODBYE=========================");
 								System.exit(1);
