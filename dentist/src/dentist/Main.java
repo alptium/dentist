@@ -52,37 +52,34 @@ public class Main {
 					}
 				}
 			 } else if(opt == 2) {	
-				if(login(kon)) {
-					String brk;
-					
-					do { 
+					if(login(kon)) {
+						String brk;
 						
-					 brk = sc.nextLine();
-					 System.out.println("------------------------------------------------------");
-						System.out.println("Please select option: ");
-						System.out.println("A - List of all patients \nC - Create a new patient \nD - Delete the patient \nE - Exit the program");
-					 if(brk.equalsIgnoreCase("A")) {
-							infoPatientlist(kon);
-						} else if(brk.equalsIgnoreCase("C")) {
-							createPatient(kon);
-						} else if(brk.equalsIgnoreCase("D")) {
-							deletePatient(kon);
-						} else if(brk.equalsIgnoreCase("E")) {
-							System.out.println("========================GODBYE=========================");
-							System.exit(1);
-						}
-					
+						do { 
+							
+						 brk = sc.nextLine();
+						 System.out.println("------------------------------------------------------");
+							System.out.println("Please select option: ");
+							System.out.println("A - List of all patients \nC - Create a new patient \nD - Delete the patient \nE - Exit the program");
+							
+						 if(brk.equalsIgnoreCase("A")) {
+								infoPatientlist(kon);
+							} else if(brk.equalsIgnoreCase("C")) {
+								createPatient(kon);
+							} else if(brk.equalsIgnoreCase("D")) {
+								deletePatient(kon);
+							} else if(brk.equalsIgnoreCase("E")) {
+								System.out.println("========================GODBYE=========================");
+								System.exit(1);
+							}
 						
-						
-					}	while(!brk.equalsIgnoreCase("exit"));				
-					
-			
-						
-					
-
-			
-		sc.close();
-		}}};
+							
+							
+						} while(!brk.equalsIgnoreCase("E"));				
+						sc.close();
+					}
+			}
+	}
 	
 	
 	//begin metod connection
@@ -209,7 +206,7 @@ public class Main {
 				
 				try(Scanner sc = new Scanner(System.in)) {
 					
-					System.out.println("Enter last name: ");
+					System.out.println("\nEnter last name: ");
 					String lastName =sc.next();
 					
 					System.out.println("Enter first name: ");
@@ -237,7 +234,7 @@ public class Main {
 					PreparedStatement stmt = null;
 					
 					try {
-					String query = "INSERT INTO `dentistlocalhost`.`patient` (`FIRST_NAME`, `LAST_NAME`, `DATE_BIRTH`, `UNIQUE_PERSONAL_NUMBER`, `BLOOD_TYPE`, `CITY`, `ADRESS`, `PHONE_NUMBER`) " +
+					String query = "INSERT INTO `alptium_dentistlocalhost`.`patient` (`LAST_NAME`, `FIRST_NAME`, `DATE_BIRTH`, `UNIQUE_PERSONAL_NUMBER`, `BLOOD_TYPE`, `CITY`, `ADRESS`, `PHONE_NUMBER`) " +
 							"VALUES ('" + lastName + "', '" + firstName + "', '" + birthDate + "', '" + upn + "', '" + bloodType + "', '" + city + "', '" + "', '" + adress + "', '" + "', '" + phoneNumber + "')";
 					stmt = myConn.prepareStatement(query);
 					stmt.executeUpdate();
@@ -245,7 +242,8 @@ public class Main {
 					} catch (Exception exc) {
 						exc.printStackTrace();
 					} finally {
-						System.out.println("Successful creation");
+						System.out.println("\nSuccessful creation");
+						
 					}
 				}
 			}
