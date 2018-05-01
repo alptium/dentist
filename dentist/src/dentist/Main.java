@@ -73,7 +73,7 @@ public class Main {
 								System.exit(1);
 							}
 						
-							
+							//TODO: dodati iz ERD preostale 
 							
 						} while(!brk.equalsIgnoreCase("E"));				
 						sc.close();
@@ -167,7 +167,7 @@ public class Main {
 						System.out.println("ne postojite u bazi");
 					}
 					
-					System.out.println("Prezime: " + lastName + " Ime:" + firstName + " Jmbg: " + jmbg);
+					System.out.println("Prezime: " + lastName + " Ime:" + firstName + " Jmbg: " + jmbg); 	//TODO: Dopuniti podatke za prikaz 
 					
 				}
 				
