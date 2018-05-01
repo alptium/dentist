@@ -101,7 +101,7 @@ public class Main {
 	//======================================================================================================================================================
 	//begin metoda infoPatient
 	
-	public static void infoPatient(String upn, Connection konek)throws SQLException {
+	public static void infoPatient(String upn, Connection konek) throws SQLException {
 		
 			PreparedStatement stmt = null;
 			ResultSet result = null;
@@ -159,13 +159,15 @@ public class Main {
 				    System.out.println("No information"); 
 				}
 				while (result.next()) {
-					String lastName = result.getString("last_name");
-					String firstName = result.getString("first_name");
-					String jmbg = result.getString("jmbg");
-					if(jmbg.equals(null)){System.out.println("ne postojite u bazi");}
+					String lastName = result.getString("LAST_NAME");
+					String firstName = result.getString("FIRST_NAME");
+					String jmbg = result.getString("UNIQE_PERSONAL_NUMBER");
 					
+					if(jmbg.equals(null)) {
+						System.out.println("ne postojite u bazi");
+					}
 					
-					System.out.println("Prezime: "+lastName+" Ime:"+firstName+" Jmbg: "+jmbg+"Status");
+					System.out.println("Prezime: " + lastName + " Ime:" + firstName + " Jmbg: " + jmbg);
 					
 				}
 				
@@ -254,40 +256,40 @@ public class Main {
 		
 		public static boolean login(Connection connect) throws SQLException {
 			
-			Scanner sc = new Scanner(System.in);
-			System.out.println("Input UPN");
-			String upn = sc.next();
-			System.out.println("Input PASSWORD");
-			String password = sc.next();
-			
-			PreparedStatement stmt = null;
-			ResultSet result = null;
-			Connection myConn = connect;
-			
-				String query = "Select * From  `alptium_dentistlocalhost`.`dentist` where UNIQUE_PERSONAL_NUMBER=" + upn + " AND PASSWORD=" +password;
-				stmt = myConn.prepareStatement(query);
-				result = stmt.executeQuery();
+			try(Scanner sc = new Scanner(System.in)) {
+				System.out.println("Input UPN");
+				String upn = sc.next();
+				System.out.println("Input PASSWORD");
+				String password = sc.next();
 				
-				if (!result.isBeforeFirst()) {    
-				    System.out.println("Login Failed, please contact master"); 
-				} else if(result.next()) {
-					if(result.getString("UNIQUE_PERSONAL_NUMBER").equals(upn) && result.getString("PASSWORD").equals(password)) {
-						System.out.println("=======================================================");
-						System.out.println("Welcome " + result.getString("FIRST_NAME"));
-						return true;
-						
-					}
+				PreparedStatement stmt = null;
+				ResultSet result = null;
+				Connection myConn = connect;
 				
-			
-			System.out.println("UNSUCCESSFUL LOGIN!");
-			System.out.println("========================GODBYE=========================");
-			
-			return false;
-			
-			//end metoda login
-		}
+					String query = "Select * From  `alptium_dentistlocalhost`.`dentist` where UNIQUE_PERSONAL_NUMBER=" + upn + " AND PASSWORD=" +password;
+					stmt = myConn.prepareStatement(query);
+					result = stmt.executeQuery();
+					
+					if (!result.isBeforeFirst()) {    
+					    System.out.println("Login Failed, please contact master"); 
+					} else if(result.next()) {
+						if(result.getString("UNIQUE_PERSONAL_NUMBER").equals(upn) && result.getString("PASSWORD").equals(password)) {
+							System.out.println("=======================================================");
+							System.out.println("Welcome " + result.getString("FIRST_NAME"));
+							return true;
+							
+						}
+					
+				
+				System.out.println("UNSUCCESSFUL LOGIN!");
+				System.out.println("========================GODBYE=========================");
+				
 				return false;
-	}
-	
+				
+				//end metoda login
+					}
+					return false;
+			}
+		}
 															//end of class	
 }
