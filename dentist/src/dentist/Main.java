@@ -31,8 +31,10 @@ public class Main {
 			
 			System.out.println("Password: ");
 			final String DBpassword = sc.next();
+			
+			System.out.println("\nConnecting...\n");
 					
-			Connection kon = connection(hostAndDatabaseName, DBusername, DBpassword);
+			Connection connection = connection(hostAndDatabaseName, DBusername, DBpassword);
 			
 			System.out.println("========================WELCOME==========================");
 			
@@ -48,11 +50,11 @@ public class Main {
 						System.out.println("========================GODBYE=========================");
 						System.exit(1);
 					} else {
-						infoPatient(patientUpn, kon);
+						infoPatient(patientUpn, connection);
 					}
 				}
 			 } else if(opt == 2) {	
-					if(login(kon)) {
+					if(login(connection)) {
 						String brk;
 						
 						do { 
@@ -63,11 +65,11 @@ public class Main {
 							System.out.println("A - List of all patients \nC - Create a new patient \nD - Delete the patient \nE - Exit the program");
 							
 						 if(brk.equalsIgnoreCase("A")) {
-								infoPatientlist(kon);
+								infoPatientlist(connection);
 							} else if(brk.equalsIgnoreCase("C")) {
-								createPatient(kon);					//TODO: Testirati zasto nece da radi
+								createPatient(connection);					//TODO: Testirati zasto nece da radi
 							} else if(brk.equalsIgnoreCase("D")) {
-								deletePatient(kon);					
+								deletePatient(connection);					
 							} else if(brk.equalsIgnoreCase("E")) {
 								System.out.println("========================GODBYE=========================");
 								System.exit(1);
@@ -87,7 +89,7 @@ public class Main {
 		Connection myConn = null;
 		try {
 			myConn = DriverManager.getConnection("jdbc:mysql://" + hostAndDatabaseName + "?autoReconnect=true&useSSL=false", DBusername, DBpassword);
-			System.out.println("---Successful connection to the database---");
+			System.out.println("---Successful connection to the database--- \n");
 			
 			} catch(SQLException e) {
 				System.out.println("---Unsuccessful connection to the database---");
