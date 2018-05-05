@@ -20,21 +20,20 @@ public class Main {
 		
 		Scanner sc = new Scanner(System.in);
 		
-
 			System.out.println("------- Welcome! -------\nPlease enter your local database login informations.");
 			
 			System.out.println("\n1.Input your host, port and the database name: example(localhost:3306/alptium_dentistlocalhost)");
-			final String hostAndDatabaseName=sc.next();
+			final String hostAndDatabaseName = sc.next();
 			
 			System.out.println("Username: ");
-			final String DBusername = sc.next();
+			final String dbUsername = sc.next();
 			
 			System.out.println("Password: ");
-			final String DBpassword = sc.next();
+			final String dbPassword = sc.next();
 			
 			System.out.println("\nConnecting...\n");
 					
-			Connection connection = connection(hostAndDatabaseName, DBusername, DBpassword);
+			Connection connection = connection(hostAndDatabaseName, dbUsername, dbPassword);
 			
 			System.out.println("========================WELCOME==========================");
 			
@@ -82,13 +81,11 @@ public class Main {
 					}
 			}
 	}
-	
-	
-	//begin metod connection
-	public static  Connection connection(String hostAndDatabaseName , String DBusername , String DBpassword) throws SQLException { 
+
+	public static  Connection connection(String hostAndDatabaseName , String dbUsername , String dbPassword) throws SQLException { 
 		Connection myConn = null;
 		try {
-			myConn = DriverManager.getConnection("jdbc:mysql://" + hostAndDatabaseName + "?autoReconnect=true&useSSL=false", DBusername, DBpassword);
+			myConn = DriverManager.getConnection("jdbc:mysql://" + hostAndDatabaseName + "?autoReconnect=true&useSSL=false", dbUsername, dbPassword);
 			System.out.println("---Successful connection to the database--- \n");
 			
 			} catch(SQLException e) {
@@ -99,10 +96,7 @@ public class Main {
 		return myConn;
 		
 	}
-	//end metoda konektujSe
-	//======================================================================================================================================================
-	//begin metoda infoPatient
-	
+
 	public static void infoPatient(String upn, Connection konek) throws SQLException {
 		
 			PreparedStatement stmt = null;
@@ -139,10 +133,6 @@ public class Main {
 			}
 
 		}
-	
-		//end metoda infoPatient
-		//======================================================================================================================================================
-		//begin metoda infoPatientlist
 		
 		public static void infoPatientlist(Connection konek)throws SQLException{
 			
@@ -178,11 +168,7 @@ public class Main {
 				}
 
 			}
-		
-		//end metoda infoPatientlist
-		//======================================================================================================================================================
-		//begin metoda deletePatient
-		
+	
 		public static void deletePatient(Connection konek) throws SQLException {
 			
 			try (Scanner input = new Scanner(System.in)) {
@@ -201,11 +187,7 @@ public class Main {
 				
 			}
 		}
-		
-		//end metoda deletePatientlist
-		//======================================================================================================================================================
-		//begin metoda createPatient
-				
+					
 		public static void createPatient(Connection konek) throws SQLException {
 				
 				try(Scanner sc = new Scanner(System.in)) {
@@ -251,11 +233,7 @@ public class Main {
 					}
 				}
 			}
-		
-		//end metoda createPatient
-		//======================================================================================================================================================
-		//begin metoda login
-		
+
 		public static boolean login(Connection connect) throws SQLException {
 			
 			try(Scanner sc = new Scanner(System.in)) {
@@ -287,11 +265,9 @@ public class Main {
 				System.out.println("========================GODBYE=========================");
 				
 				return false;
-				
-				//end metoda login
+
 					}
 					return false;
 			}
 		}
-															//end of class	
 }
